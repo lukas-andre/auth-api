@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Res, Body, HttpStatus, Param, Patch } from '@nestjs/common';
 import { RegisterUserDto } from './dto/register-user-dto.interface';
 import { UserService } from './user.service';
-import { Response } from 'express';
+import { UpdateUserDto } from './dto/update-user-dto.interface';
 
 @Controller('user')
 export class UserController {
@@ -33,9 +33,11 @@ export class UserController {
     @Patch(':id')
     async updateUser(
         @Param('id') userId,
-        @Body('username') username,
-        @Body('password') password,
-        @Body('email') email,
-    ) { }
+        @Body('data') updateUserDto: UpdateUserDto,
+    ) {
+        console.log('updateUser', updateUserDto);
+        const updatedUser = await this.userService.updateUser(userId, updateUserDto);
+        return { user: updatedUser };
+    }
 
 }
