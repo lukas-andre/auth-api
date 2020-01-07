@@ -4,7 +4,7 @@ import { Model } from 'mongoose';
 import { User } from './user.schema';
 import * as mongoose from 'mongoose';
 import * as bcrypt from 'bcrypt';
-import { UpdateUserDto } from './dto/update-user-dto.interface';
+import { UpdateUserDto } from './dto/update-user-dto';
 
 const saltRounds = 10;
 
