@@ -73,4 +73,14 @@ export class UserService {
         }
         return user;
     }
+
+    async deleteUser(id: string) {
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            throw new NotFoundException('Could no find user');
+        }
+        const result = this.userModel.deleteOne({_id: id}).exec();
+        if (result.n === 0) {
+            throw new NotFoundException('Could not find product');
+        }
+    }
 }
