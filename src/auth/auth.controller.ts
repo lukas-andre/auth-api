@@ -10,6 +10,7 @@ export class AuthController {
     
     @Post('login')
     async login(@Body('data') loginUserDto: LoginUserDto) {
+        console.log('userDto', loginUserDto);
         const result = this.authService.login(loginUserDto);
         return result;
     }
@@ -17,7 +18,8 @@ export class AuthController {
 
     @UseGuards(AuthGuard('jwt'))
     @Get('profile')
-    getProfile(@Body('data') data: any){ 
+    getProfile(@Body('data') data: any){
+        console.log('data', data);
         return data;
     }
 
