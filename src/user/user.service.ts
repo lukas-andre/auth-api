@@ -1,16 +1,18 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, Inject } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { User } from './user.schema';
 import * as mongoose from 'mongoose';
 import * as bcrypt from 'bcrypt';
 import { UpdateUserDto } from './dto/update-user-dto';
+import { ConfigService } from '@nestjs/config';
 
 const saltRounds = 10;
 
 @Injectable()
 export class UserService {
-    constructor(@InjectModel('User') private readonly userModel: Model<User>) {}
+    constructor(@InjectModel('User') private readonly userModel: Model<User>,
+                private readonly configService: ConfigService) {}
 
     async createUser(username: string, password: string, email: string) {
         const cryptPass = bcrypt.hashSync(password, saltRounds);
@@ -40,6 +42,13 @@ export class UserService {
             password: user.password,
             email: user.email,
         };
+    }
+
+    async findUserByUsername(username: string) {
+        console.log('username a buscar:', username);
+        const result = await this.userModel.findOne({ username });
+        console.log('result:', result);
+        return result;
     }
 
     async updateUser(id: string, updateUserDto: UpdateUserDto) {
@@ -83,4 +92,5 @@ export class UserService {
             throw new NotFoundException('Could not find product');
         }
     }
+
 }

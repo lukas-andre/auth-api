@@ -7,12 +7,17 @@ import { UserController } from './user/user.controller';
 import { UserModule } from './user/user.module';
 import { AuthService } from './auth/auth.service';
 import { AuthModule } from './auth/auth.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb://localhost:27017/auth'),
+    MongooseModule.forRoot('mongodb://localhost:27017/auth', {useNewUrlParser: true, useUnifiedTopology: true }),
     UserModule,
     AuthModule,
+    ConfigModule.forRoot({
+      envFilePath: `env/${process.env.NODE_ENV}.env`,
+      isGlobal: true,
+    }),
   ],
   controllers: [
     AppController,
@@ -21,7 +26,6 @@ import { AuthModule } from './auth/auth.module';
   ],
   providers: [
     AppService,
-    AuthService,
   ],
 })
 export class AppModule {}
