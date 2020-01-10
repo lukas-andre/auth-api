@@ -28,7 +28,7 @@ export class AuthService {
         if (isValid) {
             const payload = { username: user.username, sub: user.id };
             return {
-                acccess_token: this.jwtService.sign(payload),
+                access_token: this.jwtService.sign(payload),
             }
         }
     }
